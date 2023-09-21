@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 13:11:57 by thibaultgir       #+#    #+#             */
-/*   Updated: 2023/09/21 13:12:15 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/09/21 16:13:23 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,31 @@ void	BitcoinExchange::parseFile( std::string path ) {
 		getline(infile, line);
 		pos = line.find(" |");
 		date = line.substr(0, pos);
-		if (pos == std::string::npos)
+		if (!this->checkDate(date))
+			std::cout << "Error: bad input => " << date << std::endl;
+		else if (pos == std::string::npos)
 			std::cout << "Error: no value." << std::endl;
-		value = line.substr(pos + 2, line.size() - pos);
-		it = this->_data_map.find(date);
-		// std::cout << date << " : " << value << std::endl;
-		d_value = strtod(value.c_str(), NULL);
-		if (d_value >= 2147483648)
-			std::cout << "Error: too large a number." << std::endl;
-		else if (d_value < 0)
-			std::cout << "Error: not a positive number." << std::endl;
-		else if (it != this->_data_map.end())
-			std::cout << date << " => " << d_value << " = " << it->second * d_value << std::endl;
+		else
+		{
+			value = line.substr(pos + 2, line.size() - pos);
+			// it = this->_data_map.find(date);
+			d_value = strtod(value.c_str(), NULL);
+			if (d_value >= 2147483648)
+				std::cout << "Error: too large a number." << std::endl;
+			else if (d_value < 0)
+				std::cout << "Error: not a positive number." << std::endl;
+			else 
+			{
+				std::cout << date;
+				it = this->_data_map.find(date);
+				while (it == this->_data_map.end())
+				{
+					this->decreaseDate(date);
+					it = this->_data_map.find(date);
+				}
+				std::cout << " => " << d_value << " = " << std::setprecision(7) << it->second * d_value << std::endl;
+			}
+		}
 	}
 	infile.close();
 }
@@ -90,4 +103,65 @@ void	BitcoinExchange::parseFile( std::string path ) {
 void    BitcoinExchange::printMap( std::map<std::string, double> &m ) const {
 	for (std::map<std::string, double>::iterator it = m.begin(); it != m.end(); ++it)
         std::cout << '[' << it->first << "] " << std::setprecision(7) << it->second << std::endl;
+}
+
+void	BitcoinExchange::decreaseDate( std::string &date ) {
+	int		dates[3];
+	std::string year;
+	std::string month;
+	std::string day;
+	size_t	pos;
+	
+	for(int i = 0; i < 3; i++)
+	{
+		pos = date.find("-");
+		dates[i] = strtol(date.substr(0, pos).c_str(), NULL, 10);
+		date.erase(0, pos + 1);
+	}
+	if (dates[2] == 1)
+	{
+		dates[2] = 31;
+		if (dates[1] == 1)
+		{
+			dates[1] = 12;
+			dates[0]--;
+		}
+		else
+			dates[1]--;
+	}
+	else
+		dates[2]--;
+	std::stringstream stream0;
+	std::stringstream stream1;
+	std::stringstream stream2;
+	stream0 << dates[0];
+	stream0 >> year;
+	stream1 << dates[1];
+	stream1 >> month;
+	stream2 << dates[2];
+	stream2 >> day;
+	if (day.size() == 1)
+		day = "0" + day;
+	if (month.size() == 1)
+		month = "0" + month;
+	date = year + "-" + month + "-" + day;
+}
+
+bool BitcoinExchange::checkDate( std::string date ) {
+	int		dates[3];
+	size_t	pos;
+	
+	for(int i = 0; i < 3; i++)
+	{
+		pos = date.find("-");
+		dates[i] = strtol(date.substr(0, pos).c_str(), NULL, 10);
+		date.erase(0, pos + 1);
+	}
+	if (!dates[0] || !dates[1] || !dates[2])
+		return (false);
+	if (dates[0] > 2022 || dates[0] < 2009 || dates[1] > 12 || dates[1] < 1 || dates[2] < 1 || dates[2] > 31)
+		return (false);
+	if (dates[0] <= 2009 && dates[1] < 2 && dates[2] < 2)
+		return (false);
+	return (true);
 }
