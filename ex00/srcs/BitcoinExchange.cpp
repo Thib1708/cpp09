@@ -6,7 +6,7 @@
 /*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 13:11:57 by thibaultgir       #+#    #+#             */
-/*   Updated: 2023/09/21 16:13:23 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/09/23 10:05:18 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,15 +149,20 @@ void	BitcoinExchange::decreaseDate( std::string &date ) {
 
 bool BitcoinExchange::checkDate( std::string date ) {
 	int		dates[3];
+	int 	i;
 	size_t	pos;
 	
-	for(int i = 0; i < 3; i++)
+	if (date.size() != 10)
+		return (false);
+	for(i = 0; i < 3; i++)
 	{
 		pos = date.find("-");
 		dates[i] = strtol(date.substr(0, pos).c_str(), NULL, 10);
+		if (pos == std::string::npos)
+			break ;
 		date.erase(0, pos + 1);
 	}
-	if (!dates[0] || !dates[1] || !dates[2])
+	if (i != 2 || !dates[0] || !dates[1] || !dates[2])
 		return (false);
 	if (dates[0] > 2022 || dates[0] < 2009 || dates[1] > 12 || dates[1] < 1 || dates[2] < 1 || dates[2] > 31)
 		return (false);
