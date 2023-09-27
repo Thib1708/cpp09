@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RPN.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 10:23:11 by thibaultgir       #+#    #+#             */
-/*   Updated: 2023/09/23 11:05:31 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/09/26 10:39:38 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	parseNumber( std::string str ) {
 					return ;
 				}
 			}
-			s.push(strtol(value.c_str(), NULL, 10));
+			s.push(std::strtol(value.c_str(), NULL, 10));
 			if (s.top() > 9)
 			{
 				std::cout << "Error: number should not be supperior to 9" << std::endl;

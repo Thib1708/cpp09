@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   RPN.hpp                                            :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/23 10:17:33 by thibaultgir       #+#    #+#             */
-/*   Updated: 2023/09/26 10:40:26 by tgiraudo         ###   ########.fr       */
+/*   Created: 2023/09/27 09:16:17 by tgiraudo          #+#    #+#             */
+/*   Updated: 2023/09/27 09:35:34 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RPN_HPP
-#define RPN_HPP
+#include "PmergeMe.hpp"
 
-#include <iostream>
-#include <sstream>
-#include <string>
-#include <stdlib.h>
-#include <stack>
-
-void	parseNumber( std::string str );
-
-#endif
+int main(int argc, char **argv)
+{
+    if (argc == 1)
+        return (std::cout << "Error" << std::endl, 1);
+    PmergeMe(argv);
+}
