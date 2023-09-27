@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 13:11:57 by thibaultgir       #+#    #+#             */
-/*   Updated: 2023/09/23 10:05:18 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/09/27 12:34:58 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ BitcoinExchange& BitcoinExchange::operator=( const BitcoinExchange &copy ) {
 
 void	BitcoinExchange::openFile( std::string path ) {
 	std::ifstream infile;
+	
 	infile.open(path.c_str(), std::ios::in);
 	if (infile.fail())
 		throw (std::exception());
@@ -54,13 +55,13 @@ void	BitcoinExchange::openFile( std::string path ) {
 }
 
 void	BitcoinExchange::parseFile( std::string path ) {
-	std::ifstream	infile;
-	std::string		line;
-	std::string		date;
-	std::string		value;
-	double			d_value;
-	std::map<std::string, double>::iterator it;
-	size_t			pos = 0;
+	std::map<std::string, double>::iterator	it;
+	std::ifstream							infile;
+	std::string								line;
+	std::string								date;
+	std::string								value;
+	double									d_value;
+	size_t									pos = 0;
 	
 	infile.open(path.c_str(), std::ios::in);
 	if (infile.fail())
@@ -106,11 +107,11 @@ void    BitcoinExchange::printMap( std::map<std::string, double> &m ) const {
 }
 
 void	BitcoinExchange::decreaseDate( std::string &date ) {
-	int		dates[3];
-	std::string year;
+	int			dates[3];
+	std::string	year;
 	std::string month;
 	std::string day;
-	size_t	pos;
+	size_t		pos;
 	
 	for(int i = 0; i < 3; i++)
 	{

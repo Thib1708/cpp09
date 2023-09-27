@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 10:23:11 by thibaultgir       #+#    #+#             */
-/*   Updated: 2023/09/26 10:39:38 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/09/27 12:30:24 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int		calculate( std::stack<double> &s, char	expr) {
 void	parseNumber( std::string str ) {
 	std::istringstream	iss(str);
 	std::stack<double>	s;
-	std::string 	value;
+	std::string 		value;
 
 	while (getline(iss, value, ' '))
 	{

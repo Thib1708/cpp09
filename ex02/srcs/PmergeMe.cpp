@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 09:21:48 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/09/27 11:10:35 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/09/27 12:29:21 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	print_vec( std::vector<int> vec ) {
 	std::vector<int>::iterator 	it;
 	int							i = 0;
+	
 	for (it = vec.begin(); it != vec.end(); it++)
 	{
 		if (i++ > 4)
@@ -158,17 +159,23 @@ bool    PmergeMe( char ** argv ) {
 	}
 	std::cout << "Before:  ";
 	print_vec(vec);
+	
     start_vec = clock();
 	sorted_vec = recurseSort_vec(vec);
 	end_vec = clock();
     long micro_vec = ((double)end_vec - (double)start_vec) / CLOCKS_PER_SEC * 1000000;
+	
     start_deq = clock();
 	sorted_deq = recurseSort_deq(deq);
 	end_deq = clock();
     long micro_deq = ((double)end_deq - (double)start_deq) / CLOCKS_PER_SEC * 1000000;
+	
 	std::cout << "After:   ";
 	print_vec(sorted_vec);
-	std::cout << "Time to process a range of   " << vec.size() << " elements with std::vector : " << micro_vec << "µs" << std::endl;
-	std::cout << "Time to process a range of   " << deq.size() << " elements with std::deque  : " << micro_deq << "µs" << std::endl;
+	
+	std::cout << "Time to process a range of   " << vec.size()
+	<< " elements with std::vector : " << micro_vec << "µs" << std::endl;
+	std::cout << "Time to process a range of   " << deq.size()
+	<< " elements with std::deque  : " << micro_deq << "µs" << std::endl;
 	return (true);
 }
