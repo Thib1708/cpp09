@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 09:21:48 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/09/27 10:42:14 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/09/27 11:10:35 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,73 @@ std::vector<int> recurseSort_vec( std::vector<int> vec ) {
 	return (merge_vec(a, b));
 }
 
+void	print_deq( std::deque<int> deq ) {
+	std::deque<int>::iterator 	it;
+	int							i = 0;
+	for (it = deq.begin(); it != deq.end(); it++)
+	{
+		if (i++ > 4)
+			break ;
+		std::cout << *it << " ";
+	}
+	if (it != deq.end())
+		std::cout << "[...]";
+	std::cout << std::endl;
+}
+
+std::deque<int> merge_deq( std::deque<int> a, std::deque<int> b) {
+	std::deque<int> 	merged_deq;
+
+	while (a.size() && b.size())
+	{
+		if (a[0] < b[0])
+		{
+			merged_deq.push_back(a[0]);
+			a.erase(a.begin());
+		}
+		else
+		{
+			merged_deq.push_back(b[0]);
+			b.erase(b.begin());
+		}
+	}
+	while (a.size())
+	{
+		merged_deq.push_back(a[0]);
+		a.erase(a.begin());
+	}
+	while (b.size())
+	{
+		merged_deq.push_back(b[0]);
+		b.erase(b.begin());
+	}
+	return (merged_deq);
+}
+
+std::deque<int> recurseSort_deq( std::deque<int> deq ) {
+	std::deque<int> a;
+	std::deque<int> b;
+
+	if (deq.size() == 1)
+		return deq;
+	for (size_t i = 0; i < deq.size() / 2; i++)
+		a.push_back(deq[i]);
+	for (size_t i = deq.size() / 2; i < deq.size(); i++)
+		b.push_back(deq[i]);
+	a = recurseSort_deq(a);
+	b = recurseSort_deq(b);
+	return (merge_deq(a, b));
+}
+
 bool    PmergeMe( char ** argv ) {
 	std::vector<int>    vec;
 	std::vector<int>	sorted_vec;
+	std::deque<int>   	deq;
+	std::deque<int>		sorted_deq;
 	std::string         str;
 	long                number;
-	struct timeval start, end;
+	clock_t 			start_vec, end_vec;
+	clock_t 			start_deq, end_deq;
 
 	for (int j = 1; argv[j]; j++)
 	{
@@ -93,15 +154,21 @@ bool    PmergeMe( char ** argv ) {
 		if (number > 2147483647 || str.size() > 10)
 			return (std::cout << "Error: overflow" << std::endl, false);
 		vec.push_back(number);
+		deq.push_back(number);
 	}
 	std::cout << "Before:  ";
 	print_vec(vec);
-    gettimeofday(&start, 0);
+    start_vec = clock();
 	sorted_vec = recurseSort_vec(vec);
-	gettimeofday(&end, 0);
-    long micro = end.tv_usec - start.tv_usec;
+	end_vec = clock();
+    long micro_vec = ((double)end_vec - (double)start_vec) / CLOCKS_PER_SEC * 1000000;
+    start_deq = clock();
+	sorted_deq = recurseSort_deq(deq);
+	end_deq = clock();
+    long micro_deq = ((double)end_deq - (double)start_deq) / CLOCKS_PER_SEC * 1000000;
 	std::cout << "After:   ";
 	print_vec(sorted_vec);
-	std::cout << "Time to process a range of  " << vec.size() << " elements with std::vector : " << micro << "µs" << std::endl;
+	std::cout << "Time to process a range of   " << vec.size() << " elements with std::vector : " << micro_vec << "µs" << std::endl;
+	std::cout << "Time to process a range of   " << deq.size() << " elements with std::deque  : " << micro_deq << "µs" << std::endl;
 	return (true);
 }

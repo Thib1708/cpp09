@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 09:19:33 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/09/27 10:23:53 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/09/27 10:49:57 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include <iostream>
 #include <vector>
+#include <deque>
 #include <ctype.h>
 #include <stdlib.h>
 #include <stdio.h>
