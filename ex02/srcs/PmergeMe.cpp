@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 09:21:48 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/09/27 12:29:21 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/09/28 09:46:55 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,48 +27,38 @@ void	print_vec( std::vector<int> vec ) {
 	std::cout << std::endl;
 }
 
-std::vector<int> merge_vec( std::vector<int> a, std::vector<int> b) {
-	std::vector<int> 	merged_vec;
-
-	while (a.size() && b.size())
+std::vector<int>	insertionSort_vec( std::vector<int> vec) {
+	int key;
+	int j;
+	for (size_t i = 1; i < vec.size(); i++)
 	{
-		if (a[0] < b[0])
+		key = vec[i];
+		j = i - 1;
+		while (j >= 0 && vec[j] > key)
 		{
-			merged_vec.push_back(a[0]);
-			a.erase(a.begin());
+			vec[j + 1] = vec[j];
+			j--;
 		}
-		else
-		{
-			merged_vec.push_back(b[0]);
-			b.erase(b.begin());
-		}
+		vec[j + 1] = key;
 	}
-	while (a.size())
-	{
-		merged_vec.push_back(a[0]);
-		a.erase(a.begin());
-	}
-	while (b.size())
-	{
-		merged_vec.push_back(b[0]);
-		b.erase(b.begin());
-	}
-	return (merged_vec);
+	return vec;
 }
 
-std::vector<int> recurseSort_vec( std::vector<int> vec ) {
-	std::vector<int> a;
-	std::vector<int> b;
-
-	if (vec.size() == 1)
-		return vec;
-	for (size_t i = 0; i < vec.size() / 2; i++)
-		a.push_back(vec[i]);
-	for (size_t i = vec.size() / 2; i < vec.size(); i++)
-		b.push_back(vec[i]);
-	a = recurseSort_vec(a);
-	b = recurseSort_vec(b);
-	return (merge_vec(a, b));
+std::deque<int>	insertionSort_deq( std::deque<int> deq) {
+	int key;
+	int j;
+	for (size_t i = 1; i < deq.size(); i++)
+	{
+		key = deq[i];
+		j = i - 1;
+		while (j >= 0 && deq[j] > key)
+		{
+			deq[j + 1] = deq[j];
+			j--;
+		}
+		deq[j + 1] = key;
+	}
+	return deq;
 }
 
 void	print_deq( std::deque<int> deq ) {
@@ -83,50 +73,6 @@ void	print_deq( std::deque<int> deq ) {
 	if (it != deq.end())
 		std::cout << "[...]";
 	std::cout << std::endl;
-}
-
-std::deque<int> merge_deq( std::deque<int> a, std::deque<int> b) {
-	std::deque<int> 	merged_deq;
-
-	while (a.size() && b.size())
-	{
-		if (a[0] < b[0])
-		{
-			merged_deq.push_back(a[0]);
-			a.erase(a.begin());
-		}
-		else
-		{
-			merged_deq.push_back(b[0]);
-			b.erase(b.begin());
-		}
-	}
-	while (a.size())
-	{
-		merged_deq.push_back(a[0]);
-		a.erase(a.begin());
-	}
-	while (b.size())
-	{
-		merged_deq.push_back(b[0]);
-		b.erase(b.begin());
-	}
-	return (merged_deq);
-}
-
-std::deque<int> recurseSort_deq( std::deque<int> deq ) {
-	std::deque<int> a;
-	std::deque<int> b;
-
-	if (deq.size() == 1)
-		return deq;
-	for (size_t i = 0; i < deq.size() / 2; i++)
-		a.push_back(deq[i]);
-	for (size_t i = deq.size() / 2; i < deq.size(); i++)
-		b.push_back(deq[i]);
-	a = recurseSort_deq(a);
-	b = recurseSort_deq(b);
-	return (merge_deq(a, b));
 }
 
 bool    PmergeMe( char ** argv ) {
@@ -161,17 +107,17 @@ bool    PmergeMe( char ** argv ) {
 	print_vec(vec);
 	
     start_vec = clock();
-	sorted_vec = recurseSort_vec(vec);
+	sorted_vec = insertionSort_vec(vec);
 	end_vec = clock();
     long micro_vec = ((double)end_vec - (double)start_vec) / CLOCKS_PER_SEC * 1000000;
+	std::cout << "After:   ";
+	print_vec(sorted_vec);
 	
     start_deq = clock();
-	sorted_deq = recurseSort_deq(deq);
+	sorted_deq = insertionSort_deq(deq);
 	end_deq = clock();
     long micro_deq = ((double)end_deq - (double)start_deq) / CLOCKS_PER_SEC * 1000000;
 	
-	std::cout << "After:   ";
-	print_vec(sorted_vec);
 	
 	std::cout << "Time to process a range of   " << vec.size()
 	<< " elements with std::vector : " << micro_vec << "µs" << std::endl;

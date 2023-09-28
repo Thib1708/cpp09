@@ -6,7 +6,7 @@
 #    By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/24 11:12:25 by tgiraudo          #+#    #+#              #
-#    Updated: 2023/09/27 09:33:53 by tgiraudo         ###   ########.fr        #
+#    Updated: 2023/09/28 09:29:20 by tgiraudo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,7 @@ ${DIR_OBJS}%.o 	:	%.cpp Makefile  ${INCLUDES}
 ${NAME}			:	${OBJS} ${INCLUDES}
 				@${PRINT} "${GREEN}${SUPPR}Creating ${NAME}'s objects : DONE${DEFAULT}"
 				@${PRINT} "\n${YELLOW}Compiling ${NAME}...${DEFAULT}"
-				@${CC} ${OBJS} -o ${NAME} # -fsanitize=address
+				@${CC} ${OBJS} -o ${NAME} -fsanitize=address
 				@${PRINT} "\r${GREEN}Compiling ${NAME} : DONE${DEFAULT}\n\n"
 
 all				:	${NAME}
