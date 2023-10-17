@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 10:23:11 by thibaultgir       #+#    #+#             */
-/*   Updated: 2023/09/27 12:30:24 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/17 11:19:45 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,33 +24,35 @@ int		calculate( std::stack<double> &s, char	expr) {
 	s.pop();
 	switch(expr) {
 		case '*': {
-			result = numbers[0] * numbers[1];
+			result = numbers[1] * numbers[0];
 			if (result > 2147483647 || result < -2147483648)
-				return (std::cout << "Error: overflow" << std::endl, -1);
+				throw(std::runtime_error("Error: overflow"));
 			return (result);
 		}
 		case '/': {
+			if (numbers[1] == 0)
+				throw(std::runtime_error("Error: division by 0"));
+			if (numbers[0] == 0)
+				return (0);
 			result = numbers[1] / numbers[0];
 			if (result > 2147483647 || result < -2147483648)
-				return (std::cout << "Error: overflow" << std::endl, -1);
-			if (numbers[1] == 0)
-				return (std::cout << "Error: division by 0" << std::endl, -1);
+				throw(std::runtime_error("Error: overflow"));
 			return (result);
 		}
 		case '+': {
-			result = numbers[0] + numbers[1];
+			result = numbers[1] + numbers[0];
 			if (result > 2147483647 || result < -2147483648)
-				return (std::cout << "Error: overflow" << std::endl, -1);
+				throw(std::runtime_error("Error: overflow"));
 			return (result);
 		}
 		case '-': {
-			result = numbers[0] - numbers[1];
+			result = numbers[1] - numbers[0];
 			if (result > 2147483647 || result < -2147483648)
-				return (std::cout << "Error: overflow" << std::endl, -1);
+				throw(std::runtime_error("Error: overflow"));
 			return (result);
 		}
 	}
-	return (-1);
+	return (0);
 }
 
 void	parseNumber( std::string str ) {
@@ -61,11 +63,7 @@ void	parseNumber( std::string str ) {
 	while (getline(iss, value, ' '))
 	{
 		if (value == "+" || value == "-" || value == "*" || value == "/")
-		{
 			s.push(calculate(s, value[0]));
-			if (s.top() == -1)
-				return ;
-		}
 		else
 		{
 			for (int i = 0; value[i]; i++)
