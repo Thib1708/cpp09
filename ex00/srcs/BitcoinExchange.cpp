@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 13:11:57 by thibaultgir       #+#    #+#             */
-/*   Updated: 2023/09/27 12:34:58 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/19 11:15:51 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,13 @@ BitcoinExchange& BitcoinExchange::operator=( const BitcoinExchange &copy ) {
 	return *this;
 }
 
+std::string BitcoinExchange::stringTrim(std::string const &str)
+{
+	size_t start = str.find_first_not_of(" \t");
+	size_t end = str.find_last_not_of(" \t");
+	return (str.substr(start, end - start + 1));
+}
+
 void	BitcoinExchange::openFile( std::string path ) {
 	std::ifstream infile;
 	
@@ -51,7 +58,6 @@ void	BitcoinExchange::openFile( std::string path ) {
 		this->_data_map[date] = strtod(value.c_str(), NULL);
 	}
 	infile.close();
-	// this->printMap(this->_data_map);
 }
 
 void	BitcoinExchange::parseFile( std::string path ) {
@@ -72,6 +78,7 @@ void	BitcoinExchange::parseFile( std::string path ) {
 		getline(infile, line);
 		pos = line.find(" |");
 		date = line.substr(0, pos);
+		date = stringTrim(date);
 		if (!this->checkDate(date))
 			std::cout << "Error: bad input => " << date << std::endl;
 		else if (pos == std::string::npos)

@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 10:23:11 by thibaultgir       #+#    #+#             */
-/*   Updated: 2023/10/17 12:38:15 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/19 12:08:21 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		calculate( std::stack<double> &s, char	expr) {
 	double result;
 
 	if (s.size() < 2)
-		return (std::cout << "Error" << std::endl, -1);
+		throw(std::runtime_error("Error"));
 	numbers[0] = s.top();
 	s.pop();
 	numbers[1] = s.top();

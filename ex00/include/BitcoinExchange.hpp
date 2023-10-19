@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 13:11:57 by thibaultgir       #+#    #+#             */
-/*   Updated: 2023/09/21 15:57:46 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/10/19 11:15:09 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ class BitcoinExchange {
         bool    checkDate( std::string date );
         void    decreaseDate( std::string &date );
         int     *DateToInt( std::string date );
+        std::string stringTrim(std::string const &str);
 };
 
 #endif
